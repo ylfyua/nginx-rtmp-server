@@ -1,0 +1,25 @@
+name: Deploy RTMP Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Nginx and RTMP module
+        run: |
+          sudo apt update
+          sudo apt install -y nginx libnginx-mod-rtmp
+
+      - name: Copy Nginx configuration
+        run: |
+          sudo cp config/nginx.conf /etc/nginx/nginx.conf
+          sudo systemctl restart nginx
+
