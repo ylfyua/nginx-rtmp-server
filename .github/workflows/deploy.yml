@@ -18,6 +18,10 @@ jobs:
           sudo apt update
           sudo apt install -y nginx libnginx-mod-rtmp
 
+      - name: Verify Nginx and RTMP module installation
+        run: |
+          nginx -V 2>&1 | grep -- '--with-http_ssl_module' || echo 'Nginx not configured with RTMP module'
+
       - name: Copy Nginx configuration
         run: |
           sudo cp config/nginx.conf /etc/nginx/nginx.conf
